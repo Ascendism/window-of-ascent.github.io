@@ -2,89 +2,56 @@
 
 The **project workspace stays private**. Only `docs/` is the public face (landing page, thesis, status). Manuscripts, plans, and local profiles never ship here.
 
-## Live URLs (configured)
+## Live URLs
 
 | What | URL |
 |------|-----|
 | Private workspace | https://github.com/Ascendism/WindowOfAscent |
-| Public site repo | https://github.com/Ascendism/window-of-ascent.github.io |
-| Public site (Pages) | https://ascendism.github.io/window-of-ascent.github.io/ |
+| Public site repo | https://github.com/Ascendism/ascendism.github.io |
+| **Public site** | **https://ascendism.github.io/** |
 
-## Recommended layout (works on GitHub Free)
+### Why the repo must be named `ascendism.github.io`
+
+GitHub has two Pages URL shapes:
+
+| Repo name | Site URL |
+|-----------|----------|
+| `ascendism.github.io` | `https://ascendism.github.io/` ← **use this** |
+| `window-of-ascent.github.io` (or anything else) | `https://ascendism.github.io/window-of-ascent.github.io/` ← redundant, awkward |
+
+The `.github.io` suffix only belongs on a **user/org site repo** whose name is exactly `<account>.github.io`. Any other name is a *project* site and gets an extra path segment.
+
+## Layout
 
 | Repository | Visibility | Contents |
 |------------|------------|----------|
-| `WindowOfAscent` (this repo) | **Private** | Full project |
-| `window-of-ascent.github.io` (or `window-of-ascent-site`) | **Public** | Copy of `docs/` only → site root |
+| `WindowOfAscent` | **Private** | Full project |
+| `ascendism.github.io` | **Public** | Copy of `docs/` at repo root |
 
-**Why two repos:** On the free plan, GitHub Pages for a private repo is only visible to people with repo access. A small public repo gives you a world-readable URL without exposing the manuscript.
+On GitHub Free, Pages on a private repo are only visible to collaborators. The small public repo is the world-readable URL.
 
-### 1. Create the private project repo
+## After editing `docs/` in the private repo
 
 ```powershell
 cd c:\app\WindowOfAscent
-git add .
-git commit -m "Initial private workspace"
-gh repo create WindowOfAscent --private --source=. --remote=origin --push
-```
-
-### 2. Create the public site repo
-
-```powershell
-$site = "c:\app\window-of-ascent.github.io"   # or your chosen path
-New-Item -ItemType Directory -Force -Path $site | Out-Null
-Copy-Item -Path "c:\app\WindowOfAscent\docs\*" -Destination $site -Recurse -Force
-cd $site
-git init
-git add .
-git commit -m "Public landing page"
-gh repo create window-of-ascent.github.io --public --source=. --remote=origin --push
-```
-
-### 3. Enable GitHub Pages on the **public** site repo
-
-1. GitHub → **public site repo** → **Settings** → **Pages**
-2. **Build and deployment** → Source: **Deploy from a branch**
-3. Branch: `main` (or `master`), folder: **`/ (root)`**
-4. Save. Site URL (examples):
-   - `https://<user>.github.io/window-of-ascent.github.io/` (project-style name)
-   - Or rename repo to `<user>.github.io` for `https://<user>.github.io/`
-
-### 4. After edits to `docs/` in the private repo
-
-From the private repo:
-
-```powershell
-.\scripts\sync-public-site.ps1 -Target "c:\app\window-of-ascent.github.io"
-cd c:\app\window-of-ascent.github.io
+.\scripts\sync-public-site.ps1 -Target "c:\app\ascendism.github.io"
+cd c:\app\ascendism.github.io
 git add -A
 git commit -m "Update public site"
 git push
 ```
 
-Set `repo` in `docs/index.html` (footer script) to the public site repo URL so visitors can open issues there.
+Local clone path: `c:\app\ascendism.github.io` (rename from `window-of-ascent.github.io` if you still have the old folder).
 
----
-
-## Alternative: Pages from this private repo (GitHub Pro+)
-
-If you have **GitHub Pro** (or Team/Enterprise):
-
-1. Push this private repo to GitHub.
-2. **Settings** → **Pages** → Source: **GitHub Actions** or **Deploy from branch** → folder **`/docs`**
-3. Set **Pages visibility** to **Public**.
-
-You can still keep a separate public repo later for issue tracking without exposing the monorepo.
-
----
-
-## What belongs in `docs/`
-
-- `index.html`, `css/`, `assets/` (only images cleared for public use)
-- `.nojekyll` (static HTML, no Jekyll)
-
-Do **not** copy manuscript drafts, `PLAN.md`, `land_search_profile.local.txt`, or `.cortex/` into the public repo.
+Footer link in `docs/index.html` points at the public site repo for issues.
 
 ## Custom domain (optional)
 
-Add `docs/CNAME` containing your domain (e.g. `windowofascent.org`), configure DNS at your registrar, then enable the domain in the **public** repo’s Pages settings.
+Add `CNAME` at the root of the public site repo (e.g. `windowofascent.org`), configure DNS, then enable the domain in that repo’s Pages settings.
+
+## What belongs in `docs/`
+
+- `index.html`, `css/`, `assets/`
+- `.nojekyll`
+
+Do **not** copy manuscript drafts, `PLAN.md`, `land_search_profile.local.txt`, or `.cortex/` into the public repo.
