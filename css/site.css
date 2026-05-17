@@ -65,15 +65,32 @@ a:hover {
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(180deg, rgba(12, 14, 16, 0.35) 0%, rgba(12, 14, 16, 0.92) 78%),
-    url("../assets/blake_mist.jpg") center / cover no-repeat;
+  background: url("../assets/logo_generated_00025_.jpg") center / cover no-repeat;
   z-index: 0;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  backdrop-filter: blur(14px) saturate(1.05);
+  -webkit-backdrop-filter: blur(14px) saturate(1.05);
+  background: linear-gradient(
+    180deg,
+    rgba(12, 14, 16, 0.72) 0%,
+    rgba(12, 14, 16, 0.45) 22%,
+    rgba(12, 14, 16, 0.18) 48%,
+    rgba(12, 14, 16, 0) 78%
+  );
+  mask-image: linear-gradient(180deg, #000 0%, #000 35%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 35%, transparent 100%);
 }
 
 .hero .wrap {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .eyebrow {
@@ -98,6 +115,12 @@ h1 {
   color: var(--text-muted);
   max-width: 36ch;
   margin: 0;
+}
+
+.hero h1,
+.hero .lead,
+.hero .eyebrow {
+  text-shadow: 0 1px 28px rgba(12, 14, 16, 0.9);
 }
 
 /* Main */

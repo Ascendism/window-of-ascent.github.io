@@ -2,6 +2,14 @@
 
 The **project workspace stays private**. Only `docs/` is the public face (landing page, thesis, status). Manuscripts, plans, and local profiles never ship here.
 
+## Live URLs (configured)
+
+| What | URL |
+|------|-----|
+| Private workspace | https://github.com/Ascendism/WindowOfAscent |
+| Public site repo | https://github.com/Ascendism/window-of-ascent.github.io |
+| Public site (Pages) | https://ascendism.github.io/window-of-ascent.github.io/ |
+
 ## Recommended layout (works on GitHub Free)
 
 | Repository | Visibility | Contents |
