@@ -1,0 +1,259 @@
+:root {
+  --bg: #0c0e10;
+  --bg-elevated: #14181c;
+  --text: #e8e4dc;
+  --text-muted: #9a9488;
+  --accent: #7a9e8e;
+  --accent-dim: #4a6358;
+  --border: rgba(232, 228, 220, 0.08);
+  --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --font-mono: "JetBrains Mono", "Consolas", monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  line-height: 1.65;
+  color: var(--text);
+  background: var(--bg);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: var(--text);
+}
+
+.wrap {
+  width: min(42rem, calc(100% - 2.5rem));
+  margin-inline: auto;
+}
+
+/* Hero */
+
+.hero {
+  position: relative;
+  min-height: 72vh;
+  display: flex;
+  align-items: flex-end;
+  padding: 4rem 0 3rem;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(12, 14, 16, 0.35) 0%, rgba(12, 14, 16, 0.92) 78%),
+    url("../assets/blake_mist.jpg") center / cover no-repeat;
+  z-index: 0;
+}
+
+.hero .wrap {
+  position: relative;
+  z-index: 1;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 1rem;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 7vw, 3.75rem);
+  font-weight: 400;
+  line-height: 1.08;
+  margin: 0 0 1.25rem;
+  letter-spacing: -0.02em;
+}
+
+.lead {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  max-width: 36ch;
+  margin: 0;
+}
+
+/* Main */
+
+main {
+  padding-bottom: 4rem;
+}
+
+section {
+  padding: 3rem 0;
+  border-top: 1px solid var(--border);
+}
+
+h2 {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 1.25rem;
+}
+
+h3 {
+  font-size: 1.35rem;
+  font-weight: 400;
+  margin: 2rem 0 0.5rem;
+}
+
+p {
+  margin: 0 0 1rem;
+}
+
+ul {
+  margin: 0 0 1rem;
+  padding-left: 1.25rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+li::marker {
+  color: var(--accent-dim);
+}
+
+/* Edition cards */
+
+.editions {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 36rem) {
+  .editions {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  padding: 1.25rem 1.35rem;
+}
+
+.card .label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 0.5rem;
+}
+
+.card p {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-muted);
+}
+
+/* Terminal block */
+
+.terminal {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.55;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  padding: 1.25rem 1.35rem;
+  margin: 1.5rem 0 0;
+  color: var(--text-muted);
+}
+
+.terminal .prompt {
+  color: var(--accent);
+}
+
+.terminal .dim {
+  opacity: 0.55;
+}
+
+/* Status */
+
+.status-grid {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.status-row {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  gap: 1rem;
+  font-size: 1rem;
+  align-items: baseline;
+}
+
+.status-row dt {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.status-row dd {
+  margin: 0;
+  color: var(--text);
+}
+
+/* Footer */
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 0 3rem;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+footer p {
+  margin: 0 0 0.75rem;
+}
+
+.note {
+  margin-top: 1.5rem;
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+.site-repo {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.site-repo:empty {
+  display: none;
+}
