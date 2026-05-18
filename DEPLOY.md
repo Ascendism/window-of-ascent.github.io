@@ -46,16 +46,14 @@ This writes `docs/book/read/` (`manifest.json`, `full.md`, per-chapter markdown 
 From the repo root:
 
 ```bash
-npm run deploy
+npm run sync
 ```
 
-**`npm run deploy`** = copy `docs/` to your local public clone **and** `git commit` + `git push` — that is what updates https://ascendism.github.io/
+Copies `docs/` to your public-site clone, commits, and pushes to GitHub. That updates https://ascendism.github.io/
 
-**`npm run sync`** = copy only (local folder). The live site will **not** change until you push.
+If the manuscript changed first: `npm run build:book`, then `npm run sync`.
 
-If the manuscript changed first: `npm run build:book`, then `npm run deploy`.
-
-Override clone path: `set SITE_TARGET=c:\app\ascendism.github.io` then `npm run deploy`.
+Override clone path: `set SITE_TARGET=c:\app\ascendism.github.io` then `npm run sync`.
 
 Footer link in `docs/index.html` points at the public site repo for issues.
 
@@ -89,7 +87,7 @@ Add `CNAME` at the root of the public site repo (e.g. `windowofascent.org`), con
 
 Articles embed **inline** on the home page (not iframes, not separate pages). Images use root-relative paths such as `/assets/news_imgs/vis1.png`. Chart.js loads from CDN once when any article sets `data-requires-chartjs`.
 
-Then run `sync-public-site.ps1` and push the public repo.
+Then run `npm run sync`.
 
 ### Discord invite
 
