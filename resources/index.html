@@ -12,13 +12,14 @@
   <link rel="stylesheet" href="../css/site.css">
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
   <header class="page-header">
     <div class="wrap">
       <nav class="site-nav" aria-label="Primary">
         <a class="site-nav__brand" href="../">Window of Ascent</a>
         <div class="site-nav__links">
+          <a href="../#read-book">Read the book</a>
           <a href="../#news">News</a>
-          <a href="../book/">Read the book</a>
           <a href="../about/">About</a>
           <a href="./" aria-current="page">Resources</a>
           <a data-discord-link href="#" aria-disabled="true">Discord</a>
@@ -30,7 +31,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="main">
     <section class="wrap">
       <h2>Project</h2>
       <ul class="resource-list">
@@ -42,7 +43,7 @@
 
     <section class="wrap">
       <h2>Book</h2>
-      <p>The public read experience is <strong>coming soon</strong>. When it ships, this page will link to the edition and any companion notes.</p>
+      <p><a href="../book/">Open the draft reader</a> — work in progress. Companion notes will be linked here as they ship.</p>
       <p class="note">Agents and collaborators with repo access can use the built manuscript under <code>book/read/</code> in the private workspace.</p>
     </section>
 
@@ -53,14 +54,20 @@
       </ul>
     </section>
 
-    <section class="wrap">
-      <h2>Updating this page</h2>
-      <p>Add links and short descriptions here as public materials mature. News articles live in <code>docs/news/*.html</code> and are listed in <code>data/news.json</code>.</p>
-    </section>
   </main>
 
-  <footer class="wrap">
-    <p><a href="../">← Window of Ascent</a></p>
+  <footer class="wrap site-footer">
+    <p class="site-footer__tagline"><strong>Window of Ascent</strong> — tools, incentives, and a narrowing window.</p>
+    <p class="site-footer__links">
+      <a href="../">Home</a> ·
+      <a href="../book/">Read the book</a> ·
+      <a href="../about/">About</a> ·
+      <a href="./">Resources</a> ·
+      <a data-discord-link href="#" aria-disabled="true">Discord</a> ·
+      <a href="https://github.com/Ascendism/ascendism.github.io">Site repo</a> ·
+      <a href="https://github.com/Ascendism/ascendism.github.io/issues">Issues</a>
+    </p>
+    <p class="site-footer__contact">Questions or collaboration: <a href="https://github.com/Ascendism/ascendism.github.io/issues/new">open an issue</a> or join us on <a data-discord-link href="#" aria-disabled="true">Discord</a>.</p>
   </footer>
 
   <script src="../js/site.js"></script>

@@ -264,20 +264,20 @@
     });
   }
 
-  async function embedNewsArticle(meta, htmlText) {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(htmlText, "text/html");
-    const fragmentRoot = doc.querySelector("[data-woa-news-article]");
+  function newsArticleId(meta) {
+    return (
+      meta.id ||
+      String(meta.file || "")
+        .replace(/^news\//, "")
+        .replace(/\.html$/, "")
+    );
+  }
 
-    if (!fragmentRoot) {
-      throw new Error("Missing [data-woa-news-article] root in " + meta.file);
-    }
+  function isNewsPreviewMode() {
+    return newsList && newsList.dataset.newsPreview === "true";
+  }
 
-    const host = document.createElement("article");
-    host.className = "news-item news-item--embed";
-    host.id = meta.id || fragmentRoot.getAttribute("data-woa-news-id") || "";
-    host.dataset.newsId = host.id;
-
+  function buildNewsHeader(meta) {
     const time = document.createElement("time");
     time.dateTime = meta.date || "";
     time.className = "news-date";
@@ -287,37 +287,138 @@
     titleEl.className = "news-title";
     titleEl.textContent = meta.title || "Untitled";
 
+    const parts = [time, titleEl];
     if (meta.summary) {
       const deck = document.createElement("p");
       deck.className = "news-summary news-summary--deck";
       deck.textContent = meta.summary;
-      host.append(time, titleEl, deck);
-    } else {
-      host.append(time, titleEl);
+      parts.push(deck);
+    }
+    return parts;
+  }
+
+  function buildNewsPreviewCard(meta) {
+    const id = newsArticleId(meta);
+    const host = document.createElement("article");
+    host.className = "news-item news-item--preview";
+    host.id = "news-" + id;
+    host.dataset.newsId = id;
+
+    const actions = document.createElement("p");
+    actions.className = "news-actions";
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "news-expand";
+    btn.textContent = "Read full article";
+    btn.setAttribute("aria-expanded", "false");
+    btn.setAttribute("aria-controls", host.id + "-body");
+    btn.addEventListener("click", function () {
+      expandNewsItem(host, { ...meta, id }, btn);
+    });
+
+    actions.appendChild(btn);
+    host.append(...buildNewsHeader(meta), actions);
+    return host;
+  }
+
+  async function fetchNewsHtml(meta) {
+    const url = siteUrl(meta.file);
+    const res = await fetch(url, { cache: "no-store" });
+    if (!res.ok) throw new Error(url + " " + res.status);
+    return res.text();
+  }
+
+  async function populateNewsBody(host, meta, htmlText) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlText, "text/html");
+    const fragmentRoot = doc.querySelector("[data-woa-news-article]");
+
+    if (!fragmentRoot) {
+      throw new Error("Missing [data-woa-news-article] root in " + meta.file);
     }
 
     const bodySlot = document.createElement("div");
     bodySlot.className = "news-embed-body";
+    bodySlot.id = host.id + "-body";
 
     const content = fragmentRoot.querySelector(".woa-news-body");
     if (content) {
       bodySlot.appendChild(document.importNode(content, true));
     } else {
-      bodySlot.appendChild(
-        document.importNode(fragmentRoot, true)
-      );
+      bodySlot.appendChild(document.importNode(fragmentRoot, true));
     }
 
     adoptNewsStyles(fragmentRoot, host);
     host.appendChild(bodySlot);
-    newsList.appendChild(host);
+    host.classList.remove("news-item--preview");
+    host.classList.add("news-item--embed");
 
     if (fragmentRoot.hasAttribute("data-requires-chartjs")) {
       await ensureChartJs();
     }
 
     appendNewsScripts(fragmentRoot, host);
+
+    if (meta.learnMore) {
+      await mountLearnMoreHero(meta.learnMore, meta, host);
+    }
+
     return host;
+  }
+
+  async function expandNewsItem(host, meta, btn) {
+    if (host.dataset.expanded === "true") return;
+
+    btn.disabled = true;
+    const prevLabel = btn.textContent;
+    btn.textContent = "Loading…";
+
+    try {
+      const html = await fetchNewsHtml(meta);
+      await populateNewsBody(host, meta, html);
+      host.dataset.expanded = "true";
+      btn.setAttribute("aria-expanded", "true");
+      const actions = btn.closest(".news-actions");
+      if (actions) actions.remove();
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = prevLabel;
+      console.error(err);
+    }
+  }
+
+  async function embedNewsArticle(meta, htmlText) {
+    const id = newsArticleId(meta);
+    const host = document.createElement("article");
+    host.className = "news-item news-item--embed";
+    host.id = "news-" + id;
+    host.dataset.newsId = id;
+    host.append(...buildNewsHeader(meta));
+    newsList.appendChild(host);
+    await populateNewsBody(host, { ...meta, id }, htmlText);
+    return host;
+  }
+
+  function expandNewsFromHash(sorted) {
+    const hash = window.location.hash.replace(/^#/, "");
+    if (!hash.startsWith("news-")) return;
+
+    const host = document.getElementById(hash);
+    if (!host || host.dataset.expanded === "true") return;
+
+    const id = hash.replace(/^news-/, "");
+    const meta = sorted.find(function (item) {
+      return newsArticleId(item) === id;
+    });
+    if (!meta) return;
+
+    const btn = host.querySelector(".news-expand");
+    if (btn) {
+      expandNewsItem(host, { ...meta, id: newsArticleId(meta) }, btn).then(function () {
+        host.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
   }
 
   async function renderNews(manifest) {
@@ -333,19 +434,18 @@
     if (newsEmpty) newsEmpty.hidden = true;
 
     const sorted = articles.slice().sort(compareManifest);
+    const preview = isNewsPreviewMode();
 
     for (const meta of sorted) {
+      const id = newsArticleId(meta);
+      const enriched = { ...meta, id };
+
       try {
-        const url = siteUrl(meta.file);
-        const res = await fetch(url, { cache: "no-store" });
-        if (!res.ok) throw new Error(url + " " + res.status);
-        const html = await res.text();
-        const id =
-          meta.id ||
-          meta.file.replace(/^news\//, "").replace(/\.html$/, "");
-        const host = await embedNewsArticle({ ...meta, id }, html);
-        if (meta.learnMore) {
-          await mountLearnMoreHero(meta.learnMore, { ...meta, id }, host);
+        if (preview) {
+          newsList.appendChild(buildNewsPreviewCard(enriched));
+        } else {
+          const html = await fetchNewsHtml(enriched);
+          await embedNewsArticle(enriched, html);
         }
       } catch (err) {
         const errArticle = document.createElement("article");
@@ -358,6 +458,8 @@
         console.error(err);
       }
     }
+
+    if (preview) expandNewsFromHash(sorted);
   }
 
   function applyDiscord(url) {

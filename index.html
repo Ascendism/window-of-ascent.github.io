@@ -12,20 +12,25 @@
   <link rel="stylesheet" href="css/site.css">
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="site-header__hero">
       <div class="site-banner" role="img" aria-label="Window of Ascent"></div>
       <div class="wrap site-header__intro">
         <h1>Window of Ascent</h1>
         <p class="lead">Using the tools of today to build the freedom of tomorrow — before the window closes.</p>
+        <p class="hero-cta">
+          <a class="button" href="book/">Read the book</a>
+          <a class="hero-cta__secondary" href="about/">About the project</a>
+        </p>
       </div>
     </div>
     <div class="wrap site-header__bar">
       <nav class="site-nav" aria-label="Primary">
         <a class="site-nav__brand" href="./">Window of Ascent</a>
         <div class="site-nav__links">
+          <a href="#read-book">Read the book</a>
           <a href="#news">News</a>
-          <a href="book/">Read the book</a>
           <a href="about/">About</a>
           <a href="resources/">Resources</a>
           <a data-discord-link href="#" aria-disabled="true">Discord</a>
@@ -34,36 +39,38 @@
     </div>
   </header>
 
-  <main>
-    <section id="news" class="wrap">
-      <h2>News</h2>
-      <p class="section-intro">Updates from the project — newest first.</p>
-      <div id="news-list" class="news-list" aria-live="polite"></div>
-      <p id="news-empty" class="news-empty" hidden>Loading news…</p>
-    </section>
-
-    <section id="read-book" class="wrap section--compact">
+  <main id="main">
+    <section id="read-book" class="wrap section--lead">
+      <p class="eyebrow">Start here</p>
       <h2>Read the book</h2>
-      <p class="section-intro">One edition on the narrowing window, tools, incentives, and a practical exit ramp.</p>
+      <p class="section-intro">A practical edition on the narrowing window, tools, incentives, and a grounded exit ramp — before enclosure hardens.</p>
       <p class="book-cta">
         <a class="button" href="book/">Open the draft reader</a>
         <a class="book-cta__secondary" href="about/">About the project</a>
       </p>
     </section>
 
+    <section id="news" class="wrap">
+      <h2>News</h2>
+      <p class="section-intro">Summaries first — open an article to read the full piece.</p>
+      <div id="news-list" class="news-list" data-news-preview="true" aria-live="polite"></div>
+      <p id="news-empty" class="news-empty" hidden>Loading news…</p>
+    </section>
+
   </main>
 
-  <footer class="wrap">
-    <p><strong>Window of Ascent</strong> — private development workspace; this page is the public face.</p>
-    <p>
-      <a href="about/">About</a> ·
+  <footer class="wrap site-footer">
+    <p class="site-footer__tagline"><strong>Window of Ascent</strong> — tools, incentives, and a narrowing window.</p>
+    <p class="site-footer__links">
+      <a href="./">Home</a> ·
       <a href="book/">Read the book</a> ·
+      <a href="about/">About</a> ·
       <a href="resources/">Resources</a> ·
       <a data-discord-link href="#" aria-disabled="true">Discord</a> ·
-      <a href="https://github.com/Ascendism/ascendism.github.io">Public site repo</a> ·
+      <a href="https://github.com/Ascendism/ascendism.github.io">Site repo</a> ·
       <a href="https://github.com/Ascendism/ascendism.github.io/issues">Issues</a>
     </p>
-    <p>Questions or collaboration: <a href="https://github.com/Ascendism/ascendism.github.io/issues/new">open an issue</a> on the public site repo, or join us on Discord once the invite is configured in <code>data/site.json</code>.</p>
+    <p class="site-footer__contact">Questions or collaboration: <a href="https://github.com/Ascendism/ascendism.github.io/issues/new">open an issue</a> or join us on <a data-discord-link href="#" aria-disabled="true">Discord</a>.</p>
   </footer>
 
   <script src="js/site.js"></script>
