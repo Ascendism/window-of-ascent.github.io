@@ -7,6 +7,13 @@
     docs/news/YYYY-MM-DD-slug.html
     Register the file in docs/data/news.json (file, date, title, summary).
 
+  OPTIONAL learnMore (in news.json, on the same article object)
+    "learnMore": {
+      "headline": "Want to learn more about …?",
+      "youtubeId": "YOUTUBE_VIDEO_ID"
+    }
+    Renders a video hero below that article on the home page (Video.js + YouTube).
+
   FRAGMENT ONLY
     No <!DOCTYPE>, <html>, <head>, or <body>. One root element:
       <article data-woa-news-article …>

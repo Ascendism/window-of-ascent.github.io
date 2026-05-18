@@ -5,7 +5,11 @@
       "file": "news/2026-05-17-data-centers-farmland.html",
       "date": "2026-05-17",
       "title": "The Real Reason Data Centers Are Springing Up Everywhere (It's Not What You Think)",
-      "summary": "The surveillance-center rumor doesn't match the filings. The rush is compute, clean-energy tax credits, and a grid race against a 2032 deadline."
+      "summary": "The surveillance-center rumor doesn't match the filings. The rush is compute, clean-energy tax credits, and a grid race against a 2032 deadline.",
+      "learnMore": {
+        "headline": "Want to learn more about AI data centers and water use?",
+        "youtubeId": "T26ucwOT_6o"
+      }
     }
   ]
 }

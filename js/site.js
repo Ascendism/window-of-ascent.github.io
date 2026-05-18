@@ -4,6 +4,7 @@
   const discordLinks = document.querySelectorAll("[data-discord-link]");
 
   let chartJsPromise = null;
+  let videoJsPromise = null;
 
   function formatDate(iso) {
     const d = new Date(iso + "T12:00:00");
@@ -55,6 +56,190 @@
   }
 
   window.woaNewsChartReady = ensureChartJs();
+
+  function ensureVideoJs() {
+    if (window.videojs) return Promise.resolve(window.videojs);
+    if (!videoJsPromise) {
+      videoJsPromise = new Promise(function (resolve, reject) {
+        const css = document.createElement("link");
+        css.rel = "stylesheet";
+        css.href =
+          "https://cdn.jsdelivr.net/npm/video.js@8.21.0/dist/video-js.min.css";
+        document.head.appendChild(css);
+
+        const vjs = document.createElement("script");
+        vjs.src =
+          "https://cdn.jsdelivr.net/npm/video.js@8.21.0/dist/video.min.js";
+        vjs.async = true;
+
+        const yt = document.createElement("script");
+        yt.src =
+          "https://cdn.jsdelivr.net/npm/videojs-youtube@3.0.1/dist/Youtube.min.js";
+        yt.async = true;
+
+        vjs.onload = function () {
+          yt.onload = function () {
+            resolve(window.videojs);
+          };
+          yt.onerror = function () {
+            reject(new Error("videojs-youtube failed to load"));
+          };
+          document.head.appendChild(yt);
+        };
+        vjs.onerror = function () {
+          reject(new Error("Video.js failed to load"));
+        };
+        document.head.appendChild(vjs);
+      });
+    }
+    return videoJsPromise;
+  }
+
+  function youtubeWatchUrl(youtubeId) {
+    return "https://www.youtube.com/watch?v=" + encodeURIComponent(youtubeId);
+  }
+
+  function iconSvg(name) {
+    const icons = {
+      share:
+        '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>',
+      youtube:
+        '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.7 31.7 0 0 0 0 12a31.7 31.7 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.7 31.7 0 0 0 24 12a31.7 31.7 0 0 0-.5-5.8zM9.6 15.5V8.5L15.8 12l-6.2 3.5z"/></svg>',
+      link:
+        '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M3.9 12c0-1.7 1.4-3.1 3.1-3.1h4V7H7c-2.8 0-5 2.2-5 5s2.2 5 5 5h4v-1.9H7c-1.7 0-3.1-1.4-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.7 0 3.1 1.4 3.1 3.1s-1.4 3.1-3.1 3.1h-4V17h4c2.8 0 5-2.2 5-5s-2.2-5-5-5z"/></svg>',
+    };
+    return icons[name] || "";
+  }
+
+  function actionButton(label, iconName, onClick) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "learn-more-hero__action";
+    btn.setAttribute("aria-label", label);
+    btn.title = label;
+    btn.innerHTML = iconSvg(iconName);
+    btn.addEventListener("click", onClick);
+    return btn;
+  }
+
+  function flashAction(btn, message) {
+    const prev = btn.title;
+    btn.title = message;
+    btn.setAttribute("aria-label", message);
+    window.setTimeout(function () {
+      btn.title = prev;
+      btn.setAttribute("aria-label", prev);
+    }, 2000);
+  }
+
+  async function copyText(text, btn) {
+    try {
+      await navigator.clipboard.writeText(text);
+      flashAction(btn, "Copied");
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function mountLearnMoreHero(learnMore, articleMeta, afterArticle) {
+    if (!learnMore || !learnMore.youtubeId || !newsList) return;
+
+    const videoUrl =
+      learnMore.youtubeUrl || youtubeWatchUrl(learnMore.youtubeId);
+    const playerId =
+      "learn-more-" + (articleMeta.id || learnMore.youtubeId).replace(/[^\w-]/g, "-");
+
+    const aside = document.createElement("aside");
+    aside.className = "learn-more-hero";
+    aside.id = playerId + "-hero";
+    aside.setAttribute("aria-labelledby", playerId + "-headline");
+
+    const bar = document.createElement("div");
+    bar.className = "learn-more-hero__bar";
+
+    const headline = document.createElement("h4");
+    headline.className = "learn-more-hero__headline";
+    headline.id = playerId + "-headline";
+    headline.textContent =
+      learnMore.headline || "Want to learn more?";
+
+    const actions = document.createElement("div");
+    actions.className = "learn-more-hero__actions";
+
+    actions.append(
+      actionButton("Share video", "share", async function (e) {
+        const btn = e.currentTarget;
+        const payload = {
+          title: headline.textContent,
+          url: videoUrl,
+        };
+        if (navigator.share) {
+          try {
+            await navigator.share(payload);
+          } catch (err) {
+            if (err && err.name !== "AbortError") console.error(err);
+          }
+        } else {
+          copyText(videoUrl, btn);
+        }
+      }),
+      actionButton("Open on YouTube", "youtube", function () {
+        window.open(videoUrl, "_blank", "noopener,noreferrer");
+      }),
+      actionButton("Copy video link", "link", function (e) {
+        copyText(videoUrl, e.currentTarget);
+      })
+    );
+
+    bar.append(headline, actions);
+
+    const playerWrap = document.createElement("div");
+    playerWrap.className = "learn-more-hero__player";
+
+    const video = document.createElement("video");
+    video.id = playerId;
+    video.className = "video-js vjs-big-play-centered learn-more-hero__video";
+    video.setAttribute("controls", "");
+    video.setAttribute("preload", "none");
+    video.setAttribute("playsinline", "");
+
+    playerWrap.appendChild(video);
+    aside.append(bar, playerWrap);
+
+    if (afterArticle) {
+      afterArticle.appendChild(aside);
+    } else if (newsList) {
+      newsList.appendChild(aside);
+    }
+
+    try {
+      const videojs = await ensureVideoJs();
+      videojs(playerId, {
+        techOrder: ["youtube"],
+        sources: [
+          {
+            type: "video/youtube",
+            src: videoUrl,
+          },
+        ],
+        fluid: true,
+        responsive: true,
+        youtube: {
+          ytControls: 0,
+          modestbranding: 1,
+        },
+      });
+    } catch (err) {
+      console.error(err);
+      const fallback = document.createElement("p");
+      fallback.className = "learn-more-hero__fallback";
+      fallback.innerHTML =
+        'Video unavailable. <a href="' +
+        videoUrl +
+        '" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>.';
+      playerWrap.replaceChildren(fallback);
+    }
+  }
 
   function appendNewsScripts(fragmentRoot, hostArticle) {
     fragmentRoot.querySelectorAll("script[data-woa-news-script]").forEach(function (oldScript) {
@@ -129,6 +314,7 @@
     }
 
     appendNewsScripts(fragmentRoot, host);
+    return host;
   }
 
   async function renderNews(manifest) {
@@ -154,7 +340,10 @@
         const id =
           meta.id ||
           meta.file.replace(/^news\//, "").replace(/\.html$/, "");
-        await embedNewsArticle({ ...meta, id }, html);
+        const host = await embedNewsArticle({ ...meta, id }, html);
+        if (meta.learnMore) {
+          await mountLearnMoreHero(meta.learnMore, { ...meta, id }, host);
+        }
       } catch (err) {
         const errArticle = document.createElement("article");
         errArticle.className = "news-item news-item--error";

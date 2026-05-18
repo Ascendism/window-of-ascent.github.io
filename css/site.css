@@ -467,6 +467,121 @@ a.button:hover {
   font-size: 1rem;
 }
 
+/* Learn-more video hero (after a news article) */
+
+.learn-more-hero {
+  margin-top: 2rem;
+  padding: 1.15rem 1.2rem 1.25rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+}
+
+.learn-more-hero__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.65rem 1rem;
+  margin-bottom: 0.85rem;
+}
+
+.learn-more-hero__headline {
+  margin: 0;
+  flex: 1 1 14rem;
+  font-size: 1.05rem;
+  font-weight: 400;
+  line-height: 1.35;
+  color: var(--text);
+}
+
+.learn-more-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.25rem;
+  margin-left: auto;
+}
+
+.learn-more-hero__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.learn-more-hero__action:hover {
+  color: var(--text);
+  border-color: var(--accent-dim);
+  background: rgba(122, 158, 142, 0.08);
+}
+
+.learn-more-hero__player {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border: 1px solid var(--border);
+}
+
+.learn-more-hero__video.video-js {
+  width: 100%;
+  height: 100%;
+}
+
+.learn-more-hero__fallback {
+  margin: 0;
+  padding: 1rem;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.learn-more-hero .video-js {
+  font-family: var(--font-mono);
+}
+
+.learn-more-hero .vjs-big-play-button {
+  border-color: var(--accent);
+  background-color: rgba(12, 14, 16, 0.72);
+}
+
+.learn-more-hero .vjs-control-bar {
+  background: linear-gradient(180deg, transparent, rgba(12, 14, 16, 0.92));
+}
+
+/* Compact home sections */
+
+.section--compact {
+  padding: 2rem 0;
+}
+
+.book-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+}
+
+.book-cta__secondary {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text-muted);
+}
+
+.book-cta__secondary:hover {
+  color: var(--text);
+}
+
 /* Coming soon */
 
 .coming-soon {
