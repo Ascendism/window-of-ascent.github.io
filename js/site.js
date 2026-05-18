@@ -198,10 +198,7 @@
 
     const video = document.createElement("video");
     video.id = playerId;
-    video.className = "video-js vjs-big-play-centered learn-more-hero__video";
-    video.setAttribute("controls", "");
-    video.setAttribute("preload", "none");
-    video.setAttribute("playsinline", "");
+    video.className = "video-js learn-more-hero__video";
 
     playerWrap.appendChild(video);
     aside.append(bar, playerWrap);
@@ -216,17 +213,23 @@
       const videojs = await ensureVideoJs();
       videojs(playerId, {
         techOrder: ["youtube"],
+        controls: false,
+        controlBar: false,
+        bigPlayButton: false,
+        poster: false,
+        fluid: false,
+        fill: true,
         sources: [
           {
             type: "video/youtube",
             src: videoUrl,
           },
         ],
-        fluid: true,
-        responsive: true,
         youtube: {
-          ytControls: 0,
+          ytControls: 1,
           modestbranding: 1,
+          rel: 0,
+          iv_load_policy: 3,
         },
       });
     } catch (err) {
