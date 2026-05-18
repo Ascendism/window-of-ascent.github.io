@@ -93,15 +93,18 @@ a:hover {
 
 .site-header__hero {
   position: relative;
-  display: flex;
-  align-items: flex-end;
+  display: grid;
   min-height: clamp(14rem, 38vh, 22rem);
   overflow: hidden;
 }
 
+.site-banner,
+.site-header__hero::after,
+.site-header__intro {
+  grid-area: 1 / 1;
+}
+
 .site-banner {
-  position: absolute;
-  inset: 0;
   background-color: var(--bg-elevated);
   background-image: url("../assets/blake_mist.jpg");
   background-repeat: no-repeat;
@@ -111,8 +114,6 @@ a:hover {
 
 .site-header__hero::after {
   content: "";
-  position: absolute;
-  inset: 0;
   pointer-events: none;
   background: linear-gradient(
     180deg,
@@ -123,9 +124,9 @@ a:hover {
 }
 
 .site-header__intro {
-  position: relative;
+  align-self: end;
+  justify-self: center;
   z-index: 1;
-  width: 100%;
   padding: 2.5rem 0 1.75rem;
 }
 
