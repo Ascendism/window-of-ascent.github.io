@@ -1,0 +1,158 @@
+.book-shell {
+  padding-bottom: 3rem;
+}
+
+.book-header {
+  padding: 2.5rem 0 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.book-header .eyebrow a {
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.book-header .eyebrow a:hover {
+  color: var(--accent);
+}
+
+.book-meta {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin: 0.75rem 0 0;
+}
+
+.book-meta code {
+  font-size: 0.7rem;
+}
+
+.book-layout {
+  display: block;
+  padding: 2rem 0;
+}
+
+@media (min-width: 52rem) {
+  .book-layout {
+    display: grid;
+    grid-template-columns: minmax(11rem, 14rem) minmax(0, 42rem);
+    gap: 2.5rem;
+    width: min(58rem, calc(100% - 2.5rem));
+    margin-inline: auto;
+    align-items: start;
+  }
+
+  .book-nav {
+    position: sticky;
+    top: 1.5rem;
+    max-height: calc(100vh - 3rem);
+    overflow-y: auto;
+  }
+
+  .book-content.wrap {
+    width: auto;
+    margin: 0;
+  }
+}
+
+.book-nav {
+  padding: 0 0 2rem;
+}
+
+.nav-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 0.75rem;
+}
+
+#nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#nav-list li {
+  margin: 0 0 0.35rem;
+}
+
+#nav-list a {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  line-height: 1.35;
+  padding: 0.2rem 0;
+}
+
+#nav-list a:hover,
+#nav-list a[aria-current="true"] {
+  color: var(--text);
+}
+
+#nav-list a[aria-current="true"] {
+  border-left: 2px solid var(--accent);
+  padding-left: 0.5rem;
+  margin-left: -0.5rem;
+}
+
+.book-content :is(h1, h2, h3) {
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.2;
+}
+
+.book-content h1 {
+  font-size: 2rem;
+  margin-top: 0;
+}
+
+.book-content h2 {
+  font-size: 1.5rem;
+}
+
+.book-content p {
+  margin: 0 0 1rem;
+}
+
+.book-content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+.book-content em {
+  font-style: italic;
+}
+
+.book-content strong {
+  font-weight: 400;
+  color: var(--text);
+}
+
+.book-content blockquote {
+  margin: 1.25rem 0;
+  padding-left: 1rem;
+  border-left: 2px solid var(--accent-dim);
+  color: var(--text-muted);
+}
+
+.loading,
+.book-error {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.book-footer {
+  border-top: 1px solid var(--border);
+  padding-top: 2rem;
+  font-size: 0.9rem;
+}
+
+.book-footer code {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}

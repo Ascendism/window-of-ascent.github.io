@@ -1,0 +1,69 @@
+{
+    "title":  "Window of Ascent",
+    "subtitle":  "Using the tools of today to build the freedom of tomorrow",
+    "generated_at":  "2026-05-17T23:31:43Z",
+    "edition":  "single",
+    "agent_hints":  {
+                        "full_manuscript":  "read/full.md",
+                        "chapter_glob":  "read/*.md",
+                        "front_matter":  "YAML between --- delimiters at top of each chapter file"
+                    },
+    "parts":  [
+                  {
+                      "id":  "introduction",
+                      "index":  0,
+                      "title":  "Introduction — The Narrowing Window",
+                      "file":  "read/introduction.md",
+                      "status":  "draft",
+                      "words":  1427
+                  },
+                  {
+                      "id":  "audience-pleas",
+                      "index":  1,
+                      "title":  "A note to readers — two doors, one book",
+                      "file":  "read/audience-pleas.md",
+                      "status":  "draft",
+                      "words":  441
+                  },
+                  {
+                      "id":  "chapter-01",
+                      "index":  2,
+                      "title":  "Chapter 1 — What Are You Actually Trying to Build?",
+                      "file":  "read/chapter-01.md",
+                      "status":  "draft",
+                      "words":  1269
+                  },
+                  {
+                      "id":  "chapter-02",
+                      "index":  3,
+                      "title":  "Chapter 2 — The Myth of Tool Purity",
+                      "file":  "read/chapter-02.md",
+                      "status":  "draft",
+                      "words":  2843
+                  },
+                  {
+                      "id":  "chapter-03",
+                      "index":  4,
+                      "title":  "Chapter 3 — Tools Are Neutral, Incentives Are Not",
+                      "file":  "read/chapter-03.md",
+                      "status":  "draft",
+                      "words":  3695
+                  },
+                  {
+                      "id":  "chapter-04",
+                      "index":  5,
+                      "title":  "Chapter 4 — Why Society Blames Tools Instead of Design",
+                      "file":  "read/chapter-04.md",
+                      "status":  "draft",
+                      "words":  2591
+                  },
+                  {
+                      "id":  "chapter-05",
+                      "index":  6,
+                      "title":  "Chapter 5 — Data Centers, Farms, Factories, and Better Blueprints",
+                      "file":  "read/chapter-05.md",
+                      "status":  "draft",
+                      "words":  2003
+                  }
+              ]
+}

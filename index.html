@@ -14,6 +14,15 @@
 <body>
   <header class="hero">
     <div class="wrap">
+      <nav class="site-nav site-nav--hero" aria-label="Primary">
+        <a class="site-nav__brand" href="./">Window of Ascent</a>
+        <div class="site-nav__links">
+          <a href="#news">News</a>
+          <a href="#read-book">Read the book</a>
+          <a href="resources/">Resources</a>
+          <a data-discord-link href="#" aria-disabled="true">Discord</a>
+        </div>
+      </nav>
       <p class="eyebrow">Editorial project · In development</p>
       <h1>Window of Ascent</h1>
       <p class="lead">Using the tools of today to build the freedom of tomorrow — before the window closes.</p>
@@ -21,6 +30,24 @@
   </header>
 
   <main>
+    <section id="news" class="wrap">
+      <h2>News</h2>
+      <p class="section-intro">Updates from the project — newest first.</p>
+      <div id="news-list" class="news-list" aria-live="polite"></div>
+      <p id="news-empty" class="news-empty" hidden>Loading news…</p>
+      <p class="note">To publish: add <code>docs/news/YYYY-MM-DD-slug.html</code>, register in <code>data/news.json</code>, then <code>npm run deploy</code> from the repo root.</p>
+    </section>
+
+    <section id="read-book" class="wrap">
+      <h2>Read the book</h2>
+      <p>One edition, one spine: from the narrowing window through tool purity, incentive design, honest objections, and a practical exit ramp.</p>
+      <p>An early section speaks directly to readers who lead with <strong>land and living systems</strong> and readers who lead with <strong>systems you build and run</strong>, without splitting the manuscript into two books.</p>
+      <div class="coming-soon card">
+        <p class="label">Coming soon</p>
+        <p>Public reading edition — chapters, notes, and a clean read experience on the web.</p>
+      </div>
+    </section>
+
     <section id="thesis" class="wrap">
       <h2>Thesis</h2>
       <p>We are in a narrow, temporary window. Ordinary people can still use modern tools — including AI — to build more independent, resilient, materially grounded lives. That window will not stay open forever: access tightens, terms shift, enclosure hardens.</p>
@@ -32,29 +59,13 @@
       </div>
     </section>
 
-    <section id="book" class="wrap">
-      <h2>The book</h2>
-      <p>The main vehicle is a two-edition book on the same spine — two orientations, one argument.</p>
-      <div class="editions">
-        <article class="card">
-          <p class="label">Eco edition</p>
-          <p>Living systems and place first. Policy, platforms, and models read through soil, water, tenure, and local resilience.</p>
-        </article>
-        <article class="card">
-          <p class="label">Tech edition</p>
-          <p>Build-and-run systems first. Land, power, and material constraints on what actually ships and who controls it.</p>
-        </article>
-      </div>
-      <p class="note">From the narrowing window through tool purity, incentive design, honest objections, and a practical exit ramp — written for readers who want a path, not a posture.</p>
-    </section>
-
     <section id="tracks" class="wrap">
       <h2>Beyond the page</h2>
       <h3>Public outputs</h3>
       <p>Research, essays, and media that sharpen the thesis — without turning the project into an endless pipeline for its own sake.</p>
       <h3>Practical tools</h3>
       <p>Applied work on land discovery, evaluation, and transition planning — scoped to support real decisions, not fantasy homestead content.</p>
-      <p class="note">Select components may be released openly as they mature. The manuscript and planning workspace remain private during active development.</p>
+      <p class="note">Select components may be released openly as they mature. Draft manuscript stays in the private workspace until the public read edition ships.</p>
     </section>
 
     <section id="principles" class="wrap">
@@ -72,11 +83,11 @@
       <dl class="status-grid">
         <div class="status-row">
           <dt>Book</dt>
-          <dd>Spine locked; dual introductions and early chapters in revision; two-edition fork underway.</dd>
+          <dd>Spine locked; intro and chapters 1-4 in draft; public read edition coming soon.</dd>
         </div>
         <div class="status-row">
           <dt>Site</dt>
-          <dd>Public landing only — full project workspace is private.</dd>
+          <dd>News, resources, and community links; workspace stays private.</dd>
         </div>
         <div class="status-row">
           <dt>Open source</dt>
@@ -90,10 +101,14 @@
     <p><strong>Window of Ascent</strong> — private development workspace; this page is the public face.</p>
     <p>
       <a href="https://ascendism.github.io/">Site</a> ·
+      <a href="resources/">Resources</a> ·
+      <a data-discord-link href="#" aria-disabled="true">Discord</a> ·
       <a href="https://github.com/Ascendism/ascendism.github.io">Public site repo</a> ·
       <a href="https://github.com/Ascendism/ascendism.github.io/issues">Issues</a>
     </p>
-    <p>Questions or collaboration: <a href="https://github.com/Ascendism/ascendism.github.io/issues/new">open an issue</a> on the public site repo, or use your existing channel with the project.</p>
+    <p>Questions or collaboration: <a href="https://github.com/Ascendism/ascendism.github.io/issues/new">open an issue</a> on the public site repo, or join us on Discord once the invite is configured in <code>data/site.json</code>.</p>
   </footer>
+
+  <script src="js/site.js"></script>
 </body>
 </html>

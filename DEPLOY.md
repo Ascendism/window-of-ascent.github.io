@@ -30,18 +30,32 @@ The `.github.io` suffix only belongs on a **user/org site repo** whose name is e
 
 On GitHub Free, Pages on a private repo are only visible to collaborators. The small public repo is the world-readable URL.
 
-## After editing `docs/` in the private repo
+## After editing the book manuscript
+
+Regenerate the public book files from `BOOK/manuscript/`:
 
 ```powershell
 cd c:\app\WindowOfAscent
-.\scripts\sync-public-site.ps1 -Target "c:\app\ascendism.github.io"
-cd c:\app\ascendism.github.io
-git add -A
-git commit -m "Update public site"
-git push
+.\scripts\build-book-site.ps1
 ```
 
-Local clone path: `c:\app\ascendism.github.io` (rename from `window-of-ascent.github.io` if you still have the old folder).
+This writes `docs/book/read/` (`manifest.json`, `full.md`, per-chapter markdown with YAML front matter). Commit those outputs with your manuscript changes.
+
+## After editing `docs/` in the private repo
+
+From the repo root:
+
+```bash
+npm run deploy
+```
+
+**`npm run deploy`** = copy `docs/` to your local public clone **and** `git commit` + `git push` — that is what updates https://ascendism.github.io/
+
+**`npm run sync`** = copy only (local folder). The live site will **not** change until you push.
+
+If the manuscript changed first: `npm run build:book`, then `npm run deploy`.
+
+Override clone path: `set SITE_TARGET=c:\app\ascendism.github.io` then `npm run deploy`.
 
 Footer link in `docs/index.html` points at the public site repo for issues.
 
@@ -51,7 +65,44 @@ Add `CNAME` at the root of the public site repo (e.g. `windowofascent.org`), con
 
 ## What belongs in `docs/`
 
-- `index.html`, `css/`, `assets/`
+- `index.html`, `css/`, `assets/`, `js/`
+- `data/news.json` — news manifest (lists `news/*.html` fragments; home page embeds them)
+- `news/` — one HTML fragment per article (`_template.html` documents format v1)
+- `assets/news_imgs/` — images referenced from article HTML
+- `data/site.json` — `discordInviteUrl` for nav/footer Discord links
+- `resources/` — resources hub page
+- `book/` — reader UI + built `read/*.md` (not raw `BOOK/manuscript/` sources)
 - `.nojekyll`
 
-Do **not** copy manuscript drafts, `PLAN.md`, `land_search_profile.local.txt`, or `.cortex/` into the public repo.
+### Updating news
+
+1. Copy `docs/news/_template.html` → `docs/news/YYYY-MM-DD-slug.html`.
+2. Write the fragment (prose, `<style data-woa-news-style>`, images, optional Chart.js in `<script data-woa-news-script>`). Format rules are in the template header comment.
+3. Register in `docs/data/news.json`:
+
+| Field | Required | Notes |
+|-------|----------|-------|
+| `file` | yes | Path under site root, e.g. `news/2026-05-17-slug.html` |
+| `date` | yes | ISO `YYYY-MM-DD` (sort key; should match `data-woa-news-date` on the fragment) |
+| `title` | yes | Headline on the home page |
+| `summary` | yes | Deck line above the embedded body |
+
+Articles embed **inline** on the home page (not iframes, not separate pages). Images use root-relative paths such as `/assets/news_imgs/vis1.png`. Chart.js loads from CDN once when any article sets `data-requires-chartjs`.
+
+Then run `sync-public-site.ps1` and push the public repo.
+
+### Discord invite
+
+Set `discordInviteUrl` in `docs/data/site.json` to your permanent invite URL, then sync.
+
+Do **not** copy private planning (`PLAN.md`), local profiles, or `.cortex/` into the public repo. Manuscript **sources** stay in the private repo; only the **built** `docs/book/read/` tree ships publicly.
+
+### Agent-friendly layout (`docs/book/read/`)
+
+| File | Use |
+|------|-----|
+| `manifest.json` | Chapter index, titles, word counts, paths |
+| `full.md` | Entire draft concatenated |
+| `{id}.md` | One section each; YAML front matter (`id`, `title`, `status`) |
+
+Human reader: **https://ascendism.github.io/book/**
